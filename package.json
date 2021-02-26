@@ -2,7 +2,7 @@
   "name": "learn-nodejs-streams",
   "type": "module",
   "scripts": {
-    "start": "node ./readable"
+    "start": "node ./writable"
   },
   "repository": {
     "type": "git",
