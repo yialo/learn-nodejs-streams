@@ -25,7 +25,7 @@ const initEventDrivenApproach = () => {
 };
 
 const initAsyncIterationApproach = async () => {
-  const stream = fs.createReadStream('./readable/video.mp4');
+  const stream = fs.createReadStream('./video/sample.mp4');
 
   try {
     for await (const chunk of stream) {
