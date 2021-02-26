@@ -26,24 +26,30 @@ const initServerWorkflow = () => {
   server.on('request', (req, res) => {
     const stream = fs.createReadStream('./video/sample.mp4');
 
-    stream.on('data', (chunk) => {
-      const needPause = !res.write(chunk);
-
-      if (needPause) {
-        stream.pause();
-        res.once('drain', () => {
-          stream.resume();
-        });
-      }
-
-    });
-
-    stream.on('end', () => {
-      res.end('\n[End of file]');
-    });
+    stream.pipe(res);
 
     stream.on('error', (error) => {
       console.log(error.message);
+
+      if (error.code === 'ENOENT') {
+        res.statusCode = 404;
+        res.end('File not found');
+      } else {
+        res.statusCode = 500;
+        res.end('Something went wrong');
+      }
+    });
+
+    stream.on('open', () => {
+      console.log('[Open]');
+    });
+
+    stream.on('close', () => {
+      console.log('[Close]');
+    });
+
+    req.on('aborted', () => {
+      stream.destroy();
     });
   });
 
