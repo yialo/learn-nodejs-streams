@@ -24,7 +24,7 @@ const initServerWorkflow = () => {
   const server = http.createServer();
 
   server.on('request', (req, res) => {
-    const stream = fs.createReadStream('./video/sample.mp4', { encoding: 'utf8' });
+    const stream = fs.createReadStream('./video/sample.mp4');
 
     stream.on('data', (chunk) => {
       const needPause = !res.write(chunk);
