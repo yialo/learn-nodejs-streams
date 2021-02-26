@@ -4,9 +4,8 @@ import fs from 'fs';
 const server = http.createServer();
 
 server.on('request', (req, res) => {
-  fs.readFile('./video.mp4', (err, content) => {
-    res.end(content);
-  });
+  const stream = fs.createReadStream('./video.mp4');
+  stream.pipe(res);
 });
 
 server.listen(8080);
