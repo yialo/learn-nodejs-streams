@@ -24,8 +24,27 @@ const initServerWorkflow = () => {
   const server = http.createServer();
 
   server.on('request', (req, res) => {
-    res.write('Hello from server!');
-    res.end(' 🦋');
+    const stream = fs.createReadStream('./video/sample.mp4', { encoding: 'utf8' });
+
+    stream.on('data', (chunk) => {
+      const needPause = !res.write(chunk);
+
+      if (needPause) {
+        stream.pause();
+        res.once('drain', () => {
+          stream.resume();
+        });
+      }
+
+    });
+
+    stream.on('end', () => {
+      res.end('\n[End of file]');
+    });
+
+    stream.on('error', (error) => {
+      console.log(error.message);
+    });
   });
 
   server.listen(8080);
