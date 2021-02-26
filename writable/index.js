@@ -28,6 +28,22 @@ const initServerWorkflow = () => {
 
     stream.pipe(res);
 
+    // NOTE: the same as stream.pipe():
+    // stream.on('data', (chunk) => {
+    //   const needPause = !res.write(chunk);
+
+    //   if (needPause) {
+    //     stream.pause();
+    //     res.once('drain', () => {
+    //       stream.resume();
+    //     });
+    //   }
+    // });
+
+    // stream.on('end', () => {
+    //   res.end('\n[End of file]');
+    // });
+
     stream.on('error', (error) => {
       console.log(error.message);
 
