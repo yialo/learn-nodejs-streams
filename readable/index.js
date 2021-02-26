@@ -23,3 +23,19 @@ const initEventDrivenApproach = () => {
     console.log('[Open file]');
   });
 };
+
+const initAsyncIterationApproach = async () => {
+  const stream = fs.createReadStream('./readable/video.mp4');
+
+  try {
+    for await (const chunk of stream) {
+      console.log(chunk);
+    }
+
+    console.log('[End of file]');
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+initAsyncIterationApproach();
